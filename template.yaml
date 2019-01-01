@@ -23,10 +23,10 @@ Resources:
           FUNCTION_NAME: !Ref function4582AFEC
           FUNCTION_ARN: !GetAtt function4582AFEC.Arn
       Events:
-        apiB6C673B0GET:
+        apiB6C673B0GETecgdata:
           Type: Api
           Properties:
-            Path: /
+            Path: /ecg-data
             Method: GET
             RestApiId: !Ref apiB6C673B0
     Metadata:
@@ -83,7 +83,7 @@ Resources:
         openapi: '3.0'
         info: {}
         paths:
-          /:
+          /ecg-data:
             get:
               x-amazon-apigateway-integration:
                 httpMethod: POST
