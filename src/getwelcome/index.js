@@ -14,16 +14,18 @@ exports.handler = async event => {
   };
 
  var params = {
-  FunctionName: 'Process', /* required */
-  ClientContext: 'STRING_VALUE',
-  InvocationType: Event | RequestResponse | DryRun,
-  LogType: None | Tail,
-  Payload: new Buffer('...') || 'STRING_VALUE' /* Strings will be Base-64 encoded on your behalf */,
-  Qualifier: 'STRING_VALUE'
-};
+    FunctionName: 'Process', // the lambda function we are going to invoke
+    InvocationType: 'RequestResponse',
+    LogType: 'Tail',
+    Payload: '{ "name" : "Alex" }'
+  };
+
   lambda.invoke(params, function(err, data) {
-  if (err) console.log(err, err.stack); // an error occurred
-  else     console.log(data);           // successful response
-});
+    if (err) {
+      context.fail(err);
+    } else {
+      context.succeed('Lambda_B said '+ data.Payload);
+    }
+  })
   return response;
 };
