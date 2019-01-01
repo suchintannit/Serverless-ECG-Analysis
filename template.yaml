@@ -1,28 +1,6 @@
 AWSTemplateFormatVersion: 2010-09-09
 Transform: AWS::Serverless-2016-10-31
 Resources:
-  apiC547ECF0:
-    Type: AWS::Serverless::Api
-    Properties:
-      Name: !Sub
-        - ${ResourceName} From Stack ${StackTagName} Environment ${EnvironmentTagName}
-        - ResourceName: ECG
-      StageName: !Ref EnvironmentAPIGatewayStageName
-      DefinitionBody:
-        openapi: '3.0'
-        info: {}
-        paths:
-          /:
-            get:
-              x-amazon-apigateway-integration:
-                httpMethod: POST
-                type: aws_proxy
-                uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${functionA603DBAD.Arn}/invocations
-              responses: {}
-      EndpointConfiguration: REGIONAL
-      Cors: '''*'''
-    Metadata:
-      StackeryName: ECG
   functionA603DBAD:
     Type: AWS::Serverless::Function
     Properties:
@@ -40,13 +18,6 @@ Resources:
         - AWSXrayWriteOnlyAccess
         - LambdaInvokePolicy:
             FunctionName: !Ref function4582AFEC
-      Events:
-        apiC547ECF0GET:
-          Type: Api
-          Properties:
-            Path: /
-            Method: GET
-            RestApiId: !Ref apiC547ECF0
       Environment:
         Variables:
           FUNCTION_NAME: !Ref function4582AFEC
@@ -100,6 +71,3 @@ Parameters:
   EnvironmentTagName:
     Type: String
     Description: Environment Name (injected by Stackery at deployment time)
-  EnvironmentAPIGatewayStageName:
-    Type: String
-    Description: Environment name used for API Gateway Stage names (injected by Stackery at deployment time)
